@@ -7,7 +7,7 @@ class Event < ApplicationRecord
 
   def send_requests
     User.all.find_each do |user|
-      UserMailer.confirm(user, self).deliver!
+      user.send_confirmation(self)
     end
   end
 end
