@@ -22,7 +22,6 @@ module FactoryBot
 end
 
 FactoryBot.register_strategy(:find_or_create, FactoryBot::Strategy::FindOrCreate)
-FactoryBot.allow_class_lookup = false
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
