@@ -1,5 +1,6 @@
 class Event < ApplicationRecord
   has_many :groups, dependent: :destroy
+  has_many :users, through: :groups
 
   after_create :send_requests
 

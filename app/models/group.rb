@@ -1,6 +1,6 @@
 class Group < ApplicationRecord
   belongs_to :event
-  belongs_to :leader, class_name: 'User'
+  belongs_to :leader, class_name: 'User', optional: true
 
   has_and_belongs_to_many :users
 
@@ -17,6 +17,13 @@ class Group < ApplicationRecord
     save!
 
     notify_users
+  end
+
+  def take_user
+    user = ::User.queue.order(:unit_id).first
+    return unless user.present?
+
+    users << user
   end
 
   private

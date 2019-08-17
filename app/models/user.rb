@@ -7,6 +7,8 @@ class User < ApplicationRecord
   validates :full_name, presence: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
+  scope :queue, -> { where(will_go: true).where.not('id in (select groups_users.user_id from groups_users join groups on groups_users.group_id = groups.id where groups.event_id = ?)', ::Event.order(:created_at).last&.id) }
+
   def send_confirmation(event)
     regenerate_token
     self.will_go = nil
