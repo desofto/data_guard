@@ -14,4 +14,12 @@ class User < ApplicationRecord
 
     UserMailer.confirm(self, event).deliver!
   end
+
+  def accept!
+    update!(will_go: true)
+  end
+
+  def reject!
+    update!(will_go: false)
+  end
 end
