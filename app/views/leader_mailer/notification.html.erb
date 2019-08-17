@@ -1,0 +1,29 @@
+<p>
+  It is your turn to select a restaurant we will go!
+</p>
+
+<p>
+  Please select one:
+</p>
+
+<ul>
+  <% @restaurants.each do |name| %>
+    <li>
+      <a href="<%= restaurant_url %>?token=<%= @user.token %>&restaurant=<%= name %>">
+        <%= name %>
+      </a>
+    </li>
+  <% end %>
+</ul>
+
+<p>
+  You lead this group:
+</p>
+
+<ul>
+  <% @group.users.each do |user| %>
+    <li>
+      <%= user.full_name %>
+    </li>
+  <% end %>
+</ul>

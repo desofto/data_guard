@@ -46,7 +46,4 @@ Rails.application.configure do
 
   Rails.application.default_url_options = { host: 'localhost:3333' }
   config.action_mailer.default_url_options = { host: 'localhost:3333' }
-  config.action_mailer.delivery_method = :smtp
-
-  config.action_mailer.smtp_settings = { address: ENV['MAILCATCHER_IP'] || 'localhost', port: ENV['MAILCATCHER_PORT'] || 1025 }
 end

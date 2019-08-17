@@ -12,7 +12,7 @@ class User < ApplicationRecord
     self.will_go = nil
     save!
 
-    UserMailer.confirm(self, event).deliver!
+    ::UserMailer.confirm(self, event).deliver!
   end
 
   def accept!
@@ -21,5 +21,9 @@ class User < ApplicationRecord
 
   def reject!
     update!(will_go: false)
+  end
+
+  def send_notification(group)
+    ::UserMailer.notification(self, group).deliver!
   end
 end

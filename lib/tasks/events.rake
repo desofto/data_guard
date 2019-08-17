@@ -12,4 +12,9 @@ namespace :event do
   task create!: :environment do
     ::Event.create!
   end
+
+  desc 'Show stats'
+  task stats: :environment do
+    puts "By now we have #{::User.where.not(will_go: nil).count} respose(s) from total of #{::User.count}"
+  end
 end

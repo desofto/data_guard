@@ -1,0 +1,23 @@
+<p>
+  Dear, <%= @user.full_name %>
+</p>
+
+<p>
+  Good news! We are going to <%= @group.restaurant %>
+</p>
+
+<p>
+  <%= @group.leader.full_name %> heads your group.
+</p>
+
+<p>
+  Whole group:
+
+  <ul>
+    <% @group.users.each do |user| %>
+      <li>
+        <%= user.full_name %>
+      </li>
+    <% end %>
+  </ul>
+</p>

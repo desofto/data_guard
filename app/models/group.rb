@@ -8,5 +8,23 @@ class Group < ApplicationRecord
     leader_id = users.joins('left join groups on groups.leader_id = users.id').order(Arel.sql("coalesce(groups.created_at, '2000-01-01')")).first(users.count).pluck(:id).first
     self.leader = User.find(leader_id)
     save!
+
+    ::LeaderMailer.notification(leader, self).deliver!
+  end
+
+  def select_restaurant(restaurant)
+    self.restaurant = restaurant
+    save!
+
+    notify_users
+  end
+
+  private
+
+  def notify_users
+    users.each do |user|
+      next if user == leader
+      user.send_notification(self)
+    end
   end
 end

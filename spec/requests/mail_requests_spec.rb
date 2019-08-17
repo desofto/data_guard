@@ -3,7 +3,8 @@ require 'rails_helper'
 describe 'Requests from email', type: :request do
   before(:all) do
     @user = create(:user)
-    create(:event)
+    @event = create(:event)
+    @user.reload
   end
 
   it 'with invalid token' do
@@ -25,6 +26,15 @@ describe 'Requests from email', type: :request do
       expect(@user).not_to receive(:reject!)
 
       get accept_path(token: @user.token)
+    end
+
+    it '#restaurant' do
+      user2 = create(:user)
+      group = create(:group, event: @event, leader: @user, users: [@user, user2])
+
+      get restaurant_path(token: @user.token, restaurant: 'KFC')
+
+      expect(group.reload.restaurant).to eq 'KFC'
     end
   end
 end

@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   root to: 'home#index'
   get '/accept', to: 'home#accept'
   get '/reject', to: 'home#reject'
+  get '/restaurant', to: 'home#restaurant'
 end

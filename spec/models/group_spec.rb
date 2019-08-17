@@ -20,5 +20,32 @@ describe Group do
 
       expect(group4.leader).to eq user1
     end
+
+    it 'sends notification to leader' do
+      user = create(:user)
+      group = create(:group, users: [user])
+
+      mail = double
+      expect(mail).to receive(:deliver!)
+
+      expect(LeaderMailer).to receive(:notification).with(user, group) { mail }
+
+      group.appoint_leader!
+    end
+
+    describe '#select_restaurant' do
+      it 'sends notifications' do
+        user1 = create(:user)
+        user2 = create(:user)
+        group = create(:group, leader: user1, users: [user1, user2])
+
+        expect(user1).not_to receive(:send_notification)
+        expect(user2).to receive(:send_notification).with(group)
+
+        group.select_restaurant('KFC')
+
+        expect(group.restaurant).to eq 'KFC'
+      end
+    end
   end
 end
