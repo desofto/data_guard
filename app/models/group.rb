@@ -3,4 +3,10 @@ class Group < ApplicationRecord
   belongs_to :leader, class_name: 'User'
 
   has_and_belongs_to_many :users
+
+  def appoint_leader!
+    leader_id = users.joins('left join groups on groups.leader_id = users.id').order(Arel.sql("coalesce(groups.created_at, '2000-01-01')")).first(users.count).pluck(:id).first
+    self.leader = User.find(leader_id)
+    save!
+  end
 end
