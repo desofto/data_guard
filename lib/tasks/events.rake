@@ -1,7 +1,8 @@
 namespace :event do
   desc 'Create a new event'
   task create: :environment do
-    if Event.order(:created_at).last.created_at >= Time.zone.today.beginning_of_day
+    last_event = ::User.queue.order(:unit_id).first
+    if last_event.present? && last_event.created_at >= Time.zone.today.beginning_of_day
       puts 'Already created'
     else
       ::Event.create!
